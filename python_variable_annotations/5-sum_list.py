@@ -4,6 +4,7 @@ This script defines a function to calculate the sum of elements in a list.
 """
 from typing import List
 
+
 def sum_list(input_list: List[float]) -> float:
     """
     Calculate the sum of elements in a list.
