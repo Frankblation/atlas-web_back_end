@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This script defines a function to calculate the sum of elements in a list.
 """
