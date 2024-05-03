@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+"""
+Module to define a function for finding the floor of a float.
+"""
 import math
-"""function to find floor of float"""
-
 
 def floor(n: float) -> int:
     """
