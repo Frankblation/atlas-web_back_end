@@ -4,7 +4,7 @@ This script defines a function to calculate the sum of elements in a list.
 """
 
 
-def sum_list(input_list: list = float) -> sum:
+def sum_list(input_list: list[float]) -> float:
     """
     Calculate the sum of elements in a list.
 
