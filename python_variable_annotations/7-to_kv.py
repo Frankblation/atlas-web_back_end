@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 """
-This script defines a function that generates a multiplier function.
+This script defines a function that converts a key-value pair into a tuple.
 """
 
-from typing import Callable
+from typing import Union, Tuple
 
 
-def make_multiplier(multiplier: float) -> Callable[[float], float]:
+def to_kv(k: str, v: Union[int, float]) -> Tuple[str, float]:
     """
-    Returns a function that multiplies a float by a given multiplier.
+    Returns a tuple where the first element is the string k and the second element
+    is the square of the int/float v.
 
     Args:
-        multiplier (float): The multiplier to be used.
+        k (str): The string key.
+        v (Union[int, float]): The integer or float value.
 
     Returns:
-        Callable[[float], float]: A function that takes a float and returns the result of multiplying it by the multiplier.
+        Tuple[str, float]: A tuple containing the string k and the square of v as a float.
     """
-    def multiplier_function(x: float) -> float:
-        return x * multiplier
-
-    return multiplier_function
+    return (k, float(v) ** 2)
