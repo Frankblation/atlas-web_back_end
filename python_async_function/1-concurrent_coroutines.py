@@ -25,7 +25,8 @@ async def wait_random(max_delay: int = 10) -> float:
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
     """
-    Asynchronous routine that spawns wait_random n times with the specified max_delay.
+    Asynchronous routine that spawns wait_random
+    n times with the specified max_delay.
 
     Args:
         n (int): The number of times to spawn wait_random.
