@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-'''
+"""
 This script defines a regular function that returns an asyncio.Task.
-'''
+"""
+
 import asyncio
 from typing import Any
 from random import uniform
@@ -10,7 +11,7 @@ from random import uniform
 async def wait_random(max_delay: int = 10) -> float:
     """
     Asynchronous coroutine that waits for a
-     random delay between 0 and max_delay seconds.
+    random delay between 0 and max_delay seconds.
 
     Args:
         max_delay (int): The maximum delay in seconds (default is 10).
@@ -35,7 +36,3 @@ def task_wait_random(max_delay: int) -> Any:
          execution of the wait_random coroutine.
     """
     return asyncio.create_task(wait_random(max_delay))
-
-
-if __name__ == "__main__":
-    asyncio.run(task_wait_random(5))
