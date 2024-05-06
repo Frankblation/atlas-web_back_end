@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""
-This script defines a regular function that returns an asyncio.Task.
-"""
-
+'''
+This script defines a regular function
+ that returns an asyncio.Task.
+'''
 import asyncio
-from typing import Any
+from asyncio import Task
 from random import uniform
 
 
 async def wait_random(max_delay: int = 10) -> float:
     """
     Asynchronous coroutine that waits for a
-    random delay between 0 and max_delay seconds.
+      random delay between 0 and max_delay seconds.
 
     Args:
         max_delay (int): The maximum delay in seconds (default is 10).
@@ -24,7 +24,7 @@ async def wait_random(max_delay: int = 10) -> float:
     return delay
 
 
-def task_wait_random(max_delay: int) -> Any:
+def task_wait_random(max_delay: int) -> Task:
     """
     Regular function that returns an asyncio.Task.
 
@@ -33,6 +33,6 @@ def task_wait_random(max_delay: int) -> Any:
 
     Returns:
         Task: An asyncio.Task representing the
-         execution of the wait_random coroutine.
+          execution of the wait_random coroutine.
     """
     return asyncio.create_task(wait_random(max_delay))
