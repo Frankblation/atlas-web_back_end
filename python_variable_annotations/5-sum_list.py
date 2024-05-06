@@ -12,7 +12,7 @@ def sum_list(input_list: List[float]) -> float:
     Args:
         input_list (list): A list of floats.
 
-    Returns:
+    Returns:    `1  Q4
         float: The sum of elements in the input list.
     """
     return sum(input_list)
