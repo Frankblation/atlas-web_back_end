@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
-"""
-Async comprehension that collects 10 random numbers using async generator.
-"""
-
-import asyncio
+"""Async Comprehensions"""
 from typing import List
-from random import uniform
-import importlib
 
-async_generator = importlib.import_module('0-async_generator').async_generator
+
+async_generator = __import__('0-async_generator').async_generator
 
 
 async def async_comprehension() -> List[float]:
