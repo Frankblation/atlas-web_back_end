@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+"""This module provides a Server class to paginate a dataset of popular baby names.
+It includes the following features:
+
+1. `index_range(page, page_size)`: Returns a tuple of start and end indices for pagination.
+2. `Server` class:
+   - `dataset()`: Loads and caches the dataset from a CSV file, excluding the header.
+   - `get_page(page, page_size)`: Returns a subset of the dataset corresponding to the given page and page size.
+
+The data is loaded from a CSV file named 'Popular_Baby_Names.csv'. The dataset is cached to optimize repeated access.
+
+Usage:
+    Instantiate the Server class and use its methods to paginate through the dataset.
+"""""
+
 import csv
 import math
 from typing import List, Tuple
