@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """""
-This module provides a Server class to paginate a dataset of popular baby names.
+a Server class to paginate a dataset of popular baby names.
 """""
 
 import csv
@@ -39,7 +39,7 @@ class Server:
         assert isinstance(
             page, int) and page > 0, "Page must be a positive integer"
         assert isinstance(
-            page_size, int) and page_size > 0, "Page size must be a positive integer"
+            page_size, int) and page_size > 0, "Page size, positive integer"
 
         # Get the dataset
         dataset = self.dataset()
