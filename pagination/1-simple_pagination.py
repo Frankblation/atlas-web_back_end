@@ -43,7 +43,10 @@ class Server:
 
         return self.__dataset
 
-    def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+    def get_page(
+            self,
+            page: int = 1,
+            page_size: int = 10) -> List[List]:
         """Return a page of the dataset based on the page and page size"""
         # Validate input arguments
         assert isinstance(
