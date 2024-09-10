@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 """ 0-main """
+
+import sys
+print(sys.path)  # To check if the current directory is in the path
+
 BasicCache = __import__('0-basic_cache').BasicCache
 
 my_cache = BasicCache()
@@ -18,3 +22,6 @@ my_cache.put("E", "Battery")
 my_cache.put("A", "Street")
 my_cache.print_cache()
 print(my_cache.get("A"))
+
+import sys
+print(sys.path)  # To check if the current directory is in the path
