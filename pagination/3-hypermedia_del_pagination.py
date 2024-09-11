@@ -41,8 +41,10 @@ class Server:
         """Return a dictionary with pagination information and data
         """
         # Validate input arguments
-        assert isinstance(index, int) and index >= 0, "Index must be a non-negative integer"
-        assert isinstance(page_size, int) and page_size > 0, "Page size must be a positive integer"
+        assert isinstance(
+            index, int) and index >= 0, "Index must be a non-negative integer"
+        assert isinstance(
+            page_size, int) and page_size > 0, "Page size positive integer"
 
         # Get the indexed dataset
         dataset = self.indexed_dataset()
