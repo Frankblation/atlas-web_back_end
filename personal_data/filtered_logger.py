@@ -4,13 +4,14 @@
 from typing import List
 import logging
 import re
+import os  # Import os for environment variables
+import mysql.connector  # Import MySQL connector for database connection
 
 # Define PII_FIELDS with sensitive fields
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
-def filter_datum(fields: List[str],
-                 redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
     """
     Obfuscates fields in a message.
 
@@ -55,8 +56,7 @@ class RedactingFormatter(logging.Formatter):
             str: Formatted log message with sensitive data redacted.
         """
         original_message = super().format(record)
-        return filter_datum(self.fields, self.REDACTION,
-                            original_message, self.SEPARATOR)
+        return filter_datum(self.fields, self.REDACTION, original_message, self.SEPARATOR)
 
 
 def get_logger() -> logging.Logger:
@@ -64,7 +64,7 @@ def get_logger() -> logging.Logger:
     Create a logger object with redacting capabilities.
 
     Returns:
-        logging.Logger:instance stream handler and RedactingFormatter.
+        logging.Logger: instance stream handler and RedactingFormatter.
     """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
@@ -76,3 +76,33 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db():
+    """
+    Returns a MySQLConnection object to the specified database.
+
+    Uses environment variables for credentials.
+
+    Returns:
+        mysql.connector.connection.MySQLConnection: A connection object.
+    """
+    # Get environment variables with default values
+    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
+    database = os.environ.get('PERSONAL_DATA_DB_NAME')
+
+    # Check if database name is provided
+    if not database:
+        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is required.")
+
+    # Create a MySQLConnection object
+    connection = mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=database
+    )
+
+    return connection
