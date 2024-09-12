@@ -6,7 +6,7 @@ Module for logging user data processing with PII redaction.
 from typing import List
 import logging
 import re
-from logging import StreamHandler, getLogger, INFO, NOTSET
+from logging import StreamHandler, getLogger, INFO
 
 
 def filter_datum(fields: List[str],
@@ -30,12 +30,11 @@ def filter_datum(fields: List[str],
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
     """
-
     REDACTION = "***"
     SEPARATOR = ";"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
 
-    def __init__(self,
-                 fields: List[str]):
+    def __init__(self, fields: List[str]):
         """
         Initialize the formatter with a list of fields to redact.
 
@@ -55,7 +54,7 @@ class RedactingFormatter(logging.Formatter):
 
 # Define PII fields (choose the most sensitive 5)
 # Prioritize privacy for emails, SSNs, and passwords
-PII_FIELDS = ("email", "ssn", "password")
+PII_FIELDS = ["email", "ssn", "password"]  # Changed to a list
 
 
 def get_logger():
