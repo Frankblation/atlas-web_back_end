@@ -66,7 +66,7 @@ def get_logger() -> logging.Logger:
     Returns:
         logging.Logger:instance stream handler and RedactingFormatter.
     """
-    logger = logging.getLogger("personal_data")
+    logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
 
