@@ -3,6 +3,7 @@
 """
 from base_caching import BaseCaching  # Corrected import statement
 
+
 class BasicCache(BaseCaching):
     """Basic caching system without a limit on the number of items"""
 
