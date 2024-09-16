@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Module for handling logging with PII redaction and database connection."""
+"""Replacing their values with the redaction string."""
 
 from typing import List
 import logging
 import re
 import os
 import mysql.connector
-from mysql.connector.connection import MySQLConnection
+from mysql.connector import connect
 
-# Define PII_FIELDS containing sensitive fields that should be redacted
+# Define PII_FIELDS with sensitive fields
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
@@ -87,28 +87,25 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> MySQLConnection:
+def get_db():
     """
     Returns a MySQLConnection object to the specified database.
 
     Uses environment variables for credentials.
 
     Returns:
-        MySQLConnection: A connection object to the MySQL database.
+        mysql.connector.connection.MySQLConnection: A connection object.
     """
-    # Get environment variables with default values
     username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
     password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
     database = os.environ.get('PERSONAL_DATA_DB_NAME')
 
-    # Check if database name is provided
     if not database:
         raise ValueError(
             "PERSONAL_DATA_DB_NAME environment variable is required.")
 
-    # Create a MySQLConnection object
-    connection = mysql.connector.connect(
+    connection = connect(
         user=username,
         password=password,
         host=host,
@@ -116,3 +113,34 @@ def get_db() -> MySQLConnection:
     )
 
     return connection
+
+
+def main() -> None:
+    """
+    Main function to retrieve data from the users table and log it
+    with sensitive fields redacted.
+    """
+    logger = get_logger()
+    db_connection = get_db()
+    cursor = db_connection.cursor()
+
+    # Query the users table to retrieve all rows
+    cursor.execute("SELECT * FROM users;")
+
+    # Retrieve the column names (to match against PII_FIELDS)
+    columns = [desc[0] for desc in cursor.description]
+
+    # Log each user entry, applying redaction
+    for row in cursor.fetchall():
+        # Create a formatted string for logging
+        message = "; ".join(
+            f"{col}={val}" for col, val in zip(
+                columns, row)) + ";"
+        logger.info(message)
+
+    cursor.close()
+    db_connection.close()
+
+
+if __name__ == "__main__":
+    main()
