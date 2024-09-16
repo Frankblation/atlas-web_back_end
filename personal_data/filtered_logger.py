@@ -12,7 +12,11 @@ from mysql.connector.connection import MySQLConnection
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(
+        fields: List[str],
+        redaction: str,
+        message: str,
+        separator: str) -> str:
     """
     Obfuscates fields in a message.
 
@@ -57,7 +61,11 @@ class RedactingFormatter(logging.Formatter):
             str: Formatted log message with sensitive data redacted.
         """
         original_message = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, original_message, self.SEPARATOR)
+        return filter_datum(
+            self.fields,
+            self.REDACTION,
+            original_message,
+            self.SEPARATOR)
 
 
 def get_logger() -> logging.Logger:
@@ -96,7 +104,8 @@ def get_db() -> MySQLConnection:
 
     # Check if database name is provided
     if not database:
-        raise ValueError("PERSONAL_DATA_DB_NAME environment variable is required.")
+        raise ValueError(
+            "PERSONAL_DATA_DB_NAME environment variable is required.")
 
     # Create a MySQLConnection object
     connection = mysql.connector.connect(
