@@ -1,46 +1,37 @@
 #!/usr/bin/python3
-""" LIFO """
+""" LIFO Cache """
+
 from base_caching import BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """LIFO caching system."""
+    """ LIFO caching system """
 
     def __init__(self):
-        """Initialize the LIFO cache."""
+        """ Initialize the cache """
         super().__init__()
-        self.last_key = None
+        self.last_key = None  # To keep track of the last inserted key
 
     def put(self, key, item):
-        """Add an item to the LIFO cache.
-
-        Args:
-            key (str): The key of the item.
-            item (any): The item to be added.
-        """
-
+        """ Assign to the cache the item value for the key key """
         if key is None or item is None:
             return
 
+        # Add the item to the cache
         self.cache_data[key] = item
+
+        # Track the most recently added key
         self.last_key = key
 
+        # If cache exceeds the max limit, discard the last added item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            to_discard = self.last_key
-            del self.cache_data[to_discard]
-            print("DISCARD:", to_discard)
+            if self.last_key:
+                # Remove the last key that was added
+                print(f"DISCARD: {self.last_key}")
+                del self.cache_data[self.last_key]
 
     def get(self, key):
-        """Retrieve an item from the LIFO cache.
-
-        Args:
-            key (str): The key of the item.
-
-        Returns:
-            The item corresponding to the key, or None if not found.
-        """
-
+        """ Return the value linked to the key """
         if key is None or key not in self.cache_data:
             return None
-
         return self.cache_data[key]
