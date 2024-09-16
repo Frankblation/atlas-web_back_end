@@ -3,6 +3,7 @@
 
 from base_caching import BaseCaching
 
+
 class MRUCache(BaseCaching):
     """ MRUCache class that implements a MRU caching system """
 
@@ -39,5 +40,5 @@ class MRUCache(BaseCaching):
         # Update the MRU order since this key was recently accessed
         self.mru_order.remove(key)
         self.mru_order.append(key)
-        
+
         return self.cache_data[key]
