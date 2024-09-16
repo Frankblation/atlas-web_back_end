@@ -11,10 +11,9 @@ class LIFOCache(BaseCaching):
     """
 
     def __init__(self):
-        """Initialize the cache with an additional attribute to track
-        the last inserted key."""
+        """Initialize the cache and track the order of keys."""
         super().__init__()
-        self.last_key = None
+        self.stack = []  # List to maintain the order of inserted keys (LIFO)
 
     def put(self, key, item):
         """Assign the item value to the cache for the given key.
@@ -29,17 +28,20 @@ class LIFOCache(BaseCaching):
         if key is None or item is None:
             return
 
+        # If key already exists, update it and move it to the top of the stack
+        if key in self.cache_data:
+            self.stack.remove(key)
+        self.stack.append(key)
+
         # Add the item to the cache
         self.cache_data[key] = item
 
-        # Track the most recently added key
-        self.last_key = key
-
         # If cache exceeds the max limit, discard the last added item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            if self.last_key:
-                print(f"DISCARD: {self.last_key}")
-                del self.cache_data[self.last_key]
+            # Pop the most recent key added (LIFO behavior)
+            last_key = self.stack.pop(-2)  # -2 ensures the one before the latest is discarded
+            print(f"DISCARD: {last_key}")
+            del self.cache_data[last_key]
 
     def get(self, key):
         """Return the value linked to the given key.
@@ -50,6 +52,4 @@ class LIFOCache(BaseCaching):
         Returns:
             any: the value associated with the key, or None if not found.
         """
-        if key is None or key not in self.cache_data:
-            return None
-        return self.cache_data[key]
+        return self.cache_data.get(key, None)
