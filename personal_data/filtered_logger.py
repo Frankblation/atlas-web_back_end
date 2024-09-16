@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Replacing their values with the redaction string."""
+"""Module for handling logging with PII redaction and database connection."""
 
 from typing import List
 import logging
 import re
-import os  # Import os for environment variables
-import mysql.connector  # Import MySQL connector for database connection
+import os
+import mysql.connector
+from mysql.connector.connection import MySQLConnection
 
-# Define PII_FIELDS with sensitive fields
+# Define PII_FIELDS containing sensitive fields that should be redacted
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
@@ -78,14 +79,14 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> MySQLConnection:
     """
     Returns a MySQLConnection object to the specified database.
 
     Uses environment variables for credentials.
 
     Returns:
-        mysql.connector.connection.MySQLConnection: A connection object.
+        MySQLConnection: A connection object to the MySQL database.
     """
     # Get environment variables with default values
     username = os.environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
