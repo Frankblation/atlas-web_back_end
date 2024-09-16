@@ -39,7 +39,8 @@ class LIFOCache(BaseCaching):
         # If cache exceeds the max limit, discard the last added item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
             # Pop the most recent key added (LIFO behavior)
-            last_key = self.stack.pop(-2)  # -2 ensures the one before the latest is discarded
+            # -2 ensures the one before the latest is discarded
+            last_key = self.stack.pop(-2)
             print(f"DISCARD: {last_key}")
             del self.cache_data[last_key]
 
