@@ -18,14 +18,15 @@ def status() -> str:
 def stats() -> str:
     """ GET /api/v1/stats
     Return:
-      - the number of each objects
+      - the number of each objects.
+
     """
     from models.user import User
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats)
 
-@app.route('/api/v1/unauthorized', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/unauthorized', methods=['GET'], strict_slashes=False)
 def unauthorized() -> str:
     """ GET /api/v1/unauthorized route to trigger 401 error """
     abort(401)
