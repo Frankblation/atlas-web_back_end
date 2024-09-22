@@ -32,7 +32,7 @@ class Auth:
             if path in excluded_paths:
                 return False
         return False
-
+        
     def authorization_header(self, request=None) -> str:
         """
         Method to fetch the Authorization header from the request.
