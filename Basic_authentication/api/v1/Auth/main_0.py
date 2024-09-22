@@ -1,4 +1,4 @@
-X main_0.py
+
 #!/usr/bin/env python3
 """ Main 0
 """
