@@ -22,7 +22,7 @@ class Auth:
             bool: False indicating no authentication is required.
         """
         # if path is none or excluded then requier auth
-        if path is None or not excluded_paths:
+        if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
 
             # Add trailing slash
@@ -30,13 +30,13 @@ class Auth:
                 path += '/'
 
             if path in excluded_paths:
-                return True
+                return False
         return False
 
     def authorization_header(self, request=None) -> str:
         """
         Method to fetch the Authorization header from the request.
-        For now, it always returns None.
+        For now, it always returns None.    
 
         Args:
             request (flask.Request): The Flask request object.
