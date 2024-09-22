@@ -36,7 +36,7 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """
         Method to fetch the Authorization header from the request.
-        For now, it always returns None.    
+        For now, it always returns None.
 
         Args:
             request (flask.Request): The Flask request object.
