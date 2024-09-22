@@ -1,87 +1,56 @@
 #!/usr/bin/env python3
-"""Auth module for API authentication
 """
+Auth module for API authentication.
+This module defines the Auth class, which is responsible for
+managing the authentication for the API.
+"""
+
 from flask import request
 from typing import List, TypeVar
 
 
 class Auth:
-    """Auth class to manage the API authentication.
+    """
+    Auth class to manage the API authentication.
+    
+    This class contains methods that define the basic logic for 
+    determining whether a path requires authentication, retrieving
+    the authorization header, and fetching the current user.
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Method to check if a path requires authentication.
-        For now, it always returns False.
+        Checks if a given path requires authentication.
 
         Args:
-            path (str): The request path.
-            excluded_paths (List[str]):don't require authentication.
+            path (str): The request path to be checked.
+            excluded_paths (List[str]): A list of paths that don't require authentication.
 
         Returns:
-            bool: False indicating no authentication is required.
+            bool: True if the path requires authentication, False otherwise.
         """
-        # If path or excluded_paths is None or excluded_paths is empty, require
-        # authentication.
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
 
-        # Normalize path by adding a trailing slash if not present
+        # Normalize the path by adding a trailing slash if not present
         if not path.endswith('/'):
             path += '/'
 
-        # If the normalized path is in excluded_paths, don't require
-        # authentication
+        # Return False if the path is in the list of excluded paths
         if path in excluded_paths:
             return False
 
-        # If none of the above conditions were met, require authentication
         return True
 
     def authorization_header(self, request=None) -> str:
         """
-        Method to fetch the Authorization header from the request.
-        For now, it always returns None.
+        Retrieves the Authorization header from the request.
 
         Args:
             request (flask.Request): The Flask request object.
 
         Returns:
-            str: None indicating no Authorization header is available.
-        """
-' '         if request is None:
-            return None
-
-        auth_header = request.headers.get('Authorization')
-        if auth_header is None:
-            return None
-
-        return auth_header
-        return None
-
-    def current_user(self, request=None) -> TypeVar('User'):
-        """
-        Method to get the current user.
-        For now, it always returns None.
-
-        Args:
-            request (flask.Request): The Flask request object.
-
-        Returns:
-            User: None, representing no user is authenticated.
-        """
-        return None
-
-        def authorization_header(self, request=None) -> str:
-        """
-        Return the value of the Authorization header from the request.
-        Returns None if request is None or header is missing.
-
-        Args:
-            request (flask.Request): The Flask request object.
-
-        Returns:
-            str: The Authorization header value, or None if not present.
+            str: The value of the Authorization header, or None if it is not present.
         """
         if request is None:
             return None
@@ -92,6 +61,14 @@ class Auth:
 
         return auth_header
 
-    def current_user(self, request=None):
-        """For now, this returns None until user validation is implemented."""
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Retrieves the current user based on the request.
+
+        Args:
+            request (flask.Request): The Flask request object.
+
+        Returns:
+            User: The current user, or None if no user is authenticated.
+        """
         return None
