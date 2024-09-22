@@ -71,3 +71,27 @@ class Auth:
             User: None, representing no user is authenticated.
         """
         return None
+
+        def authorization_header(self, request=None) -> str:
+        """
+        Return the value of the Authorization header from the request.
+        Returns None if request is None or header is missing.
+
+        Args:
+            request (flask.Request): The Flask request object.
+
+        Returns:
+            str: The Authorization header value, or None if not present.
+        """
+        if request is None:
+            return None
+
+        auth_header = request.headers.get('Authorization')
+        if auth_header is None:
+            return None
+
+        return auth_header
+
+    def current_user(self, request=None):
+        """For now, this returns None until user validation is implemented."""
+        return None
