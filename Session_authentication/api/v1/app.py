@@ -66,7 +66,7 @@ def before_request_func():
         abort(401)  # Unauthorized
 
     # Check if the current user can be identified (currently always None)
-    user = auth.current_user(request) 
+    user = auth.current_user(request)
     if user is None:
         abort(403)  # Forbidden
 

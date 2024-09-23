@@ -36,11 +36,11 @@ def view_one_user(user_id: str = None) -> str:
     # If the user_id is not "me", proceed with regular lookup
     if user_id is None:
         abort(404)
-    
+
     user = User.get(user_id)
     if user is None:
         abort(404)
-    
+
     return jsonify(user.to_json())
 
 
