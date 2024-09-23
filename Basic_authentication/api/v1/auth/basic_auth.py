@@ -34,6 +34,14 @@ class BasicAuth(Auth):
         if not authorization_header.startswith("Basic "):
             return None
 
+        if not isinstance(authorization_header, str):
+            return None
+
+        # The Authorization header must start with 'Basic ' followed by the
+        # Base64 string
+        if not authorization_header.startswith("Basic "):
+            return None
+
         # Return the part of the header after 'Basic '
         return authorization_header[len("Basic "):]
 
@@ -60,3 +68,29 @@ class BasicAuth(Auth):
             return decoded_bytes.decode('utf-8')
         except Exception:
             return None
+
+
+def extract_user_credentials(
+        self, decoded_base64_authorization_header: str) -> (str, str):
+    """
+    Extracts the user email and password from the Base64 decoded.
+
+    Args:
+        decoded_base64_authorization_header (str): The decoded Base64 string
+
+    Returns:
+        (str, str): The user email and password, or (None, None) if invalid.
+    """
+    if decoded_base64_authorization_header is None:
+        return None, None
+
+    if not isinstance(decoded_base64_authorization_header, str):
+        return None, None
+
+    # Check if the string contains a colon to separate email and password
+    if ':' not in decoded_base64_authorization_header:
+        return None, None
+
+    # Split the string on the first occurrence of the colon
+    email, password = decoded_base64_authorization_header.split(':', 1)
+    return email, password
