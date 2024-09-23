@@ -48,7 +48,7 @@ def forbidden_error(error):
 
 @app.before_request
 def before_request_func():
-    """Apply authentication logic before handling each request."""
+    """authentication before handling each request."""
     if auth is None:
         return  # No authentication needed
 
