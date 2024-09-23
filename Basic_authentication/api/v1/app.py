@@ -42,8 +42,12 @@ def before_request_func():
 
     if request.path not in excluded_paths and \
             auth.require_auth(request.path, excluded_paths):
-        if auth.authorization_header(request) is None:
+   
+    if auth.authorization_header(request) is None:
             abort(401)  # Unauthorized
+    
+    if auth.current_user(request) is None:
+        abort(403)
 
 @app.errorhandler(404)
 def not_found(error) -> str:
