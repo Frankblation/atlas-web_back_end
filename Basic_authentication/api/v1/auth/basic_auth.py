@@ -3,7 +3,7 @@
 BasicAuth module for API authentication.
 """
 from api.v1.auth.auth import Auth
-from models.user import User  
+from models.user import User
 import base64
 
 
@@ -107,7 +107,7 @@ class BasicAuth(Auth):
             user_pwd (str): The user's password.
 
         Returns:
-            User: The User instance if credentials are valid, or None otherwise.
+            User: User instance if credentials are valid, or None otherwise.
         """
         # Validate email and password are non-null and are strings
         if user_email is None or not isinstance(user_email, str):
