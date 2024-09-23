@@ -16,7 +16,9 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 auth_type = getenv("AUTH_TYPE")
 
-if auth_type == "auth":
+if auth_type == "basic_auth":
+    auth = BasicAuth()
+else:
     auth = Auth()
 
 # Error Handlers
@@ -65,8 +67,8 @@ def before_request_func():
     # Check if the current user can be identified (currently always None)
     if auth.current_user(request) is None:
         abort(403)  # Forbidden
-
-
+@app.BasicAuth
+def BasicAuth(Auth)
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5001")
