@@ -36,6 +36,11 @@ def before_request_func():
         '/api/v1/status/',
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/']
+    
+    # Normalize the request path by adding a trailing slash if not present
+    path = request.path
+    if not path.endswith('/'):
+        path += '/'
 
     if request.path in excluded_paths:
         return
