@@ -72,3 +72,4 @@ class Auth:
             User: The current user, or None if no user is authenticated.
         """
         return None
+ 
