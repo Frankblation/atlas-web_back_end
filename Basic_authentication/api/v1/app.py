@@ -7,6 +7,7 @@ from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 from api.v1.views import app_views
 from api.v1.auth.auth import Auth  # Import Auth class
+from api.v1.auth.basic_auth import BasicAuth
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -67,8 +68,7 @@ def before_request_func():
     # Check if the current user can be identified (currently always None)
     if auth.current_user(request) is None:
         abort(403)  # Forbidden
-@app.BasicAuth
-def BasicAuth(Auth)
+
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5001")
