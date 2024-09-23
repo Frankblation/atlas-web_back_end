@@ -20,15 +20,19 @@ if auth_type == "auth":
     auth = Auth()
 
 # Error Handlers
+
+
 @app.errorhandler(404)
 def not_found(error):
     """404 Not Found handler"""
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(401)
 def unauthorized_error(error):
     """401 Unauthorized handler"""
     return jsonify({"error": "Unauthorized"}), 401
+
 
 @app.errorhandler(403)
 def forbidden_error(error):
@@ -36,6 +40,8 @@ def forbidden_error(error):
     return jsonify({"error": "Forbidden"}), 403
 
 # Before each request, apply the authentication logic
+
+
 @app.before_request
 def before_request_func():
     """Apply authentication logic before handling each request."""
@@ -43,7 +49,10 @@ def before_request_func():
         return  # No authentication needed
 
     # List of excluded paths (including `/status`)
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = [
+        '/api/v1/status/',
+        '/api/v1/unauthorized/',
+        '/api/v1/forbidden/']
 
     # Skip authentication for the excluded paths
     if not auth.require_auth(request.path, excluded_paths):
