@@ -132,11 +132,10 @@ class BasicAuth(Auth):
             return None
 
         return user
-    
-    
+
     def current_user(self, request=None) -> User:
         """
-        Retrieves the User instance based on the Authorization header in the request.
+        Retrieves the User instance based on the Authorization.
         """
         # Step 1: Extract the Authorization header
         auth_header = self.authorization_header(request)
