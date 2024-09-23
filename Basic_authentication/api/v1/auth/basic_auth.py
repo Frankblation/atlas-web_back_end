@@ -93,3 +93,41 @@ class BasicAuth(Auth):
         # Split the string on the first occurrence of the colon
         email, password = decoded_base64_authorization_header.split(':', 1)
         return email, password
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str) -> User:
+        """
+        Returns the User instance based on the provided email and password.
+
+        Args:
+            user_email (str): The user's email address.
+            user_pwd (str): The user's password.
+
+        Returns:
+            User: The User instance if credentials are valid, or None otherwise.
+        """
+        # Validate email and password are non-null and are strings
+        if user_email is None or not isinstance(user_email, str):
+            return None
+        if user_pwd is None or not isinstance(user_pwd, str):
+            return None
+
+        # Search for the user in the database by email
+        try:
+            user_list = User.search({'email': user_email})
+        except Exception:
+            return None
+
+        if len(user_list) == 0:
+            return None
+
+        # Get the user object
+        user = user_list[0]
+
+        # Check if the provided password matches the stored password
+        if not user.is_valid_password(user_pwd):
+            return None
+
+        return user
