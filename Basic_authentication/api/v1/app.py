@@ -37,6 +37,14 @@ def before_request_func():
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/']
 
+    if request.path in excluded_paths:
+        return
+
+    if request.path not in excluded_paths and \
+            auth.require_auth(request.path, excluded_paths):
+        if auth.authorization_header(request) is None:
+            abort(401)  # Unauthorized
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
