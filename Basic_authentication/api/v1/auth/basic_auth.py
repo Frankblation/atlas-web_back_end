@@ -3,73 +3,60 @@
 BasicAuth module for API authentication.
 """
 from api.v1.auth.auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
     """
     BasicAuth class that inherits from Auth.
-    For now, this class is empty but will be extended later.
+    This class provides methods to handle the Basic Authentication process.
     """
-    pass
-
-
-def extract_base64_authorization_header(
-        self, authorization_header: str) -> str:
-    """ Function that extracts the base 64 part of the header
-
-        Args:
-            - self
-            - authorization_header: Header to be parsed
-
-        Return:
-            - The base 64 part of the header
-    """
-    # No header is provided
-    if authorization_header is None:
-        return None
-
-    # Header must be a valid string
-    if not isinstance(authorization_header, str):
-        return None
-
-    header = "Basic "
-
-    # Header must start with Basic
-    if authorization_header.startswith(header):
-
-        # Calculate the position at the end of header
-        start_index = len(header)
-        return authorization_header[start_index:]
-    else:
-        return None
 
     def extract_base64_authorization_header(
-        self, authorization_header: str
-    ) -> str:
-        """ Function that extracts the base 64 part of the header
-
-            Args:
-                - self
-                - authorization_header: Header to be parsed
-
-            Return:
-                - The base 64 part of the header
+            self, authorization_header: str) -> str:
         """
-    # No header is provided
-    if authorization_header is None:
-        return None
+        Extracts the Base64 part
 
-    # Header must be a valid string
-    if not isinstance(authorization_header, str):
-        return None
+        Args:
+            authorization_header (str): The full Authorization header string.
 
-    header = "Basic "
+        Returns:
+            str: The Base64 encoded part of the header, or None
+        """
+        if authorization_header is None:
+            return None
 
-    # Header must start with Basic
-    if authorization_header.startswith(header):
+        if not isinstance(authorization_header, str):
+            return None
 
-        # Calculate the position at the end of header
-        start_index = len(header)
-        return authorization_header[start_index:]
-    else:
-        return None
+        # The Authorization header
+        # Base64 string
+        if not authorization_header.startswith("Basic "):
+            return None
+
+        # Return the part of the header after 'Basic '
+        return authorization_header[len("Basic "):]
+
+    def decode_base64_authorization_header(
+            self, base64_authorization_header: str) -> str:
+        """
+        Decodes the Base64
+
+        Args:
+            base64_authorization_header (str): The Base64 encoded part
+
+        Returns:
+            str: The decoded value as a UTF-8 string, or None
+        """
+        if base64_authorization_header is None:
+            return None
+
+        if not isinstance(base64_authorization_header, str):
+            return None
+
+        try:
+            # Decode the Base64 string
+            decoded_bytes = base64.b64decode(base64_authorization_header)
+            return decoded_bytes.decode('utf-8')
+        except Exception:
+            return None
