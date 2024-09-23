@@ -20,16 +20,27 @@ def view_all_users() -> str:
 def view_one_user(user_id: str = None) -> str:
     """ GET /api/v1/users/:id
     Path parameter:
-      - User ID
+      - User ID or 'me'
     Return:
       - User object JSON represented
-      - 404 if the User ID doesn't exist
+      - 404 if the User ID or 'me' doesn't exist
     """
+    # Check if the user_id is "me"
+    if user_id == "me":
+        # If there's no authenticated user, return 404
+        if request.current_user is None:
+            abort(404)
+        # Otherwise, return the authenticated user's data
+        return jsonify(request.current_user.to_json())
+
+    # If the user_id is not "me", proceed with regular lookup
     if user_id is None:
         abort(404)
+    
     user = User.get(user_id)
     if user is None:
         abort(404)
+    
     return jsonify(user.to_json())
 
 
