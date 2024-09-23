@@ -75,10 +75,10 @@ class BasicAuth(Auth):
         Extracts the user email and password from the Base64 decoded.
 
         Args:
-            decoded_base64_authorization_header (str): The decoded Base64 string
+            decoded_base64_authorization_header (str):decoded Base64 string
 
         Returns:
-            (str, str): The user email and password, or (None, None) if invalid.
+            (str, str):user email and password, or (None, None) if invalid.
         """
         if decoded_base64_authorization_header is None:
             return None, None
