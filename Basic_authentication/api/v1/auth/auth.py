@@ -12,8 +12,8 @@ from typing import List, TypeVar
 class Auth:
     """
     Auth class to manage the API authentication.
-    
-    This class contains methods that define the basic logic for 
+
+    This class contains methods that define the basic logic for
     determining whether a path requires authentication, retrieving
     the authorization header, and fetching the current user.
     """
@@ -24,7 +24,7 @@ class Auth:
 
         Args:
             path (str): The request path to be checked.
-            excluded_paths (List[str]): A list of paths that don't require authentication.
+            excluded_paths (List[str]):paths that don't require auth.
 
         Returns:
             bool: True if the path requires authentication, False otherwise.
@@ -50,7 +50,7 @@ class Auth:
             request (flask.Request): The Flask request object.
 
         Returns:
-            str: The value of the Authorization header, or None if it is not present.
+            str: The value of the Authorization header, or None.
         """
         if request is None:
             return None
@@ -72,4 +72,3 @@ class Auth:
             User: The current user, or None if no user is authenticated.
         """
         return None
- 
