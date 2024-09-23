@@ -69,28 +69,27 @@ class BasicAuth(Auth):
         except Exception:
             return None
 
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str) -> (str, str):
+        """
+        Extracts the user email and password from the Base64 decoded.
 
-def extract_user_credentials(
-        self, decoded_base64_authorization_header: str) -> (str, str):
-    """
-    Extracts the user email and password from the Base64 decoded.
+        Args:
+            decoded_base64_authorization_header (str): The decoded Base64 string
 
-    Args:
-        decoded_base64_authorization_header (str): The decoded Base64 string
+        Returns:
+            (str, str): The user email and password, or (None, None) if invalid.
+        """
+        if decoded_base64_authorization_header is None:
+            return None, None
 
-    Returns:
-        (str, str): The user email and password, or (None, None) if invalid.
-    """
-    if decoded_base64_authorization_header is None:
-        return None, None
+        if not isinstance(decoded_base64_authorization_header, str):
+            return None, None
 
-    if not isinstance(decoded_base64_authorization_header, str):
-        return None, None
+        # Check if the string contains a colon to separate email and password
+        if ':' not in decoded_base64_authorization_header:
+            return None, None
 
-    # Check if the string contains a colon to separate email and password
-    if ':' not in decoded_base64_authorization_header:
-        return None, None
-
-    # Split the string on the first occurrence of the colon
-    email, password = decoded_base64_authorization_header.split(':', 1)
-    return email, password
+        # Split the string on the first occurrence of the colon
+        email, password = decoded_base64_authorization_header.split(':', 1)
+        return email, password
