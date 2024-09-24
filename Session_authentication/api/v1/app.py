@@ -19,24 +19,22 @@ auth = None
 auth_type = getenv("AUTH_TYPE")
 
 if auth_type == "session_auth":
-    auth = sessionAuth()
+    auth = SessionAuth()  # Fix typo (correct capitalization)
+elif auth_type == "basic_auth":
+    auth = BasicAuth()
 else:
     auth = Auth()
 
 # Error Handlers
-
-
 @app.errorhandler(404)
 def not_found(error):
     """404 Not Found handler"""
     return jsonify({"error": "Not found"}), 404
 
-
 @app.errorhandler(401)
 def unauthorized_error(error):
     """401 Unauthorized handler"""
     return jsonify({"error": "Unauthorized"}), 401
-
 
 @app.errorhandler(403)
 def forbidden_error(error):
@@ -44,34 +42,32 @@ def forbidden_error(error):
     return jsonify({"error": "Forbidden"}), 403
 
 # Before each request, apply the authentication logic
-
-
 @app.before_request
 def before_request_func():
-    """authentication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           before handling each request."""
+    """Check authentication before handling each request."""
     if auth is None:
-        return  # No authentication needed
+        return  # No authentication configured
 
     # List of excluded paths (including `/status`)
     excluded_paths = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
-        '/api/v1/forbidden/'
-        '/api/v1/auth_session/login/'
-        ]
+        '/api/v1/forbidden/',
+        '/api/v1/auth_session/login/'  # Add comma to fix syntax
+    ]
 
     # Skip authentication for the excluded paths
     if not auth.require_auth(request.path, excluded_paths):
         return  # No authentication required for this path
 
-    # Check if the request contains an Authorization header
-    if auth.authorization_header(request) is None:
-        abort(401)  # Unauthorized
+    # Check if the request contains an Authorization header or session cookie
+    if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+        abort(401)  # Unauthorized if both are missing
 
-    # Check if the current user can be identified (currently always None)
+    # Check if the current user can be identified
     user = auth.current_user(request)
     if user is None:
-        abort(403)  # Forbidden
+        abort(403)  # Forbidden if no valid user found
 
     request.current_user = user
 
