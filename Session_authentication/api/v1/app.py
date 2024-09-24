@@ -18,8 +18,8 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 auth_type = getenv("AUTH_TYPE")
 
-if auth_type == "basic_auth":
-    auth = BasicAuth()
+if auth_type == "session_auth":
+    auth = sessionAuth()
 else:
     auth = Auth()
 
@@ -48,7 +48,7 @@ def forbidden_error(error):
 
 @app.before_request
 def before_request_func():
-    """authentication before handling each request."""
+    """authentication                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           before handling each request."""
     if auth is None:
         return  # No authentication needed
 
@@ -56,7 +56,9 @@ def before_request_func():
     excluded_paths = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
-        '/api/v1/forbidden/']
+        '/api/v1/forbidden/'
+        '/api/v1/auth_session/login/'
+        ]
 
     # Skip authentication for the excluded paths
     if not auth.require_auth(request.path, excluded_paths):
