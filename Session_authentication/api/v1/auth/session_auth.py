@@ -6,13 +6,14 @@ import uuid
 from api.v1.auth.auth import Auth
 from models.user import User
 
+
 class SessionAuth(Auth):
     """
     SessionAuth class that inherits from Auth.
     Manages session IDs and user sessions.
     """
 
-     # Class attribute: Dictionary to store session IDs and corresponding user
+    # Class attribute: Dictionary to store session IDs and corresponding user
     # IDs
     user_id_by_session_id = {}
 
@@ -55,7 +56,6 @@ class SessionAuth(Auth):
 
         # Use the dictionary's get() method to retrieve the user ID
         return self.user_id_by_session_id.get(session_id)
-
 
     def current_user(self, request=None):
         """
