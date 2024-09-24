@@ -11,6 +11,10 @@ from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
 
 app = Flask(__name__)
+
+import api.v1.views.session_auth
+
+
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
@@ -24,7 +28,6 @@ elif auth_type == "basic_auth":
     auth = BasicAuth()
 else:
     auth = Auth()
-
 
 # Error Handlers
 @app.errorhandler(404)
