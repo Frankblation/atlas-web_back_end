@@ -9,6 +9,7 @@ from os import getenv
 from api.v1.views import app_views  # Import app_views for routing
 from api.v1.app import auth
 
+
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
     """
