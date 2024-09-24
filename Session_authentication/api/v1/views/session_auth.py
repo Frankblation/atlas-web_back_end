@@ -2,19 +2,27 @@
 """
 Session authentication view for handling login.
 """
+
 from flask import request, jsonify, abort
 from models.user import User
-from api.v1.app import auth  # Import auth dynamically to avoid circular import
 from os import getenv
-from api.v1.views import app_viewse
-
+from api.v1.views import app_views  # Import app_views for routing
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
     """
     POST /api/v1/auth_session/login: Login a user via session authentication.
+    
+    Retrieves the user's email and password from the request, verifies them, 
+    creates a session for the user if valid, and returns the user data along 
+    with setting the session cookie.
+    
+    Returns:
+        - 400 if the email or password is missing.
+        - 404 if the email is not found.
+        - 401 if the password is incorrect.
+        - 200 with the user information and session cookie if successful.
     """
-
     # Get email and password from the form
     email = request.form.get('email')
     password = request.form.get('password')
@@ -43,6 +51,9 @@ def login():
     # Check if password is valid
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
+
+    # Import auth dynamically to avoid circular import
+    from api.v1.app import auth
 
     # Create session for the user
     session_id = auth.create_session(user.id)
