@@ -8,15 +8,16 @@ from models.user import User
 from os import getenv
 from api.v1.views import app_views  # Import app_views for routing
 
+
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
     """
     POST /api/v1/auth_session/login: Login a user via session authentication.
-    
-    Retrieves the user's email and password from the request, verifies them, 
-    creates a session for the user if valid, and returns the user data along 
+
+    Retrieves the user's email and password from the request, verifies them,
+    creates a session for the user if valid, and returns the user data along
     with setting the session cookie.
-    
+
     Returns:
         - 400 if the email or password is missing.
         - 404 if the email is not found.
