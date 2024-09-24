@@ -25,6 +25,7 @@ elif auth_type == "basic_auth":
 else:
     auth = Auth()
 
+
 # Error Handlers
 @app.errorhandler(404)
 def not_found(error):
