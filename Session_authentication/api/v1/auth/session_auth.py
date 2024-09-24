@@ -4,7 +4,7 @@ SessionAuth module for handling session-based authentication.
 """
 import uuid
 from api.v1.auth.auth import Auth
-
+from models.user import User
 
 class SessionAuth(Auth):
     """
@@ -12,7 +12,7 @@ class SessionAuth(Auth):
     Manages session IDs and user sessions.
     """
 
-    # Class attribute: Dictionary to store session IDs and corresponding user
+     # Class attribute: Dictionary to store session IDs and corresponding user
     # IDs
     user_id_by_session_id = {}
 
@@ -55,3 +55,22 @@ class SessionAuth(Auth):
 
         # Use the dictionary's get() method to retrieve the user ID
         return self.user_id_by_session_id.get(session_id)
+
+
+    def current_user(self, request=None):
+        """
+        Return the User instance based on the session cookie (_my_session_id).
+        """
+        # Get the session ID from the request cookies
+        session_id = self.session_cookie(request)
+        if session_id is None:
+            return None
+
+        # Get the user ID based on the session ID
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
+            return None
+
+        # Retrieve the user instance from the database
+        user = User.get(user_id)
+        return user
