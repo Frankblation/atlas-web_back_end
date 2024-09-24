@@ -32,15 +32,18 @@ def not_found(error):
     """404 Not Found handler"""
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(401)
 def unauthorized_error(error):
     """401 Unauthorized handler"""
     return jsonify({"error": "Unauthorized"}), 401
 
+
 @app.errorhandler(403)
 def forbidden_error(error):
     """403 Forbidden handler"""
     return jsonify({"error": "Forbidden"}), 403
+
 
 # Before each request, apply the authentication logic
 @app.before_request
@@ -62,7 +65,8 @@ def before_request_func():
         return  # No authentication required for this path
 
     # Check if the request contains an Authorization header or session cookie
-    if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+    if auth.authorization_header(request)
+       is None and auth.session_cookie(request) is None:
         abort(401)  # Unauthorized if both are missing
 
     # Check if the current user can be identified
