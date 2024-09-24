@@ -7,6 +7,7 @@ managing the authentication for the API.
 
 from flask import request
 from typing import List, TypeVar
+from os import getenv
 
 
 class Auth:
