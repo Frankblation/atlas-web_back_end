@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Session authentication view for handling login.
+Session authentication view for handling login and logout.
 """
 
 from flask import request, jsonify, abort
@@ -8,7 +8,6 @@ from models.user import User
 from os import getenv
 from api.v1.views import app_views  # Import app_views for routing
 from api.v1.app import auth
-
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
@@ -54,9 +53,6 @@ def login():
     if not user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
-    # Import auth dynamically to avoid circular import
-    from api.v1.app import auth
-
     # Create session for the user
     session_id = auth.create_session(user.id)
 
@@ -73,7 +69,13 @@ def login():
                  strict_slashes=False)
 def logout():
     """
-    Handle user logout by destroying the session.
+    DELETE /api/v1/auth_session/logout: Logout the user and destroy their session.
+
+    This route deletes the user's session by destroying the session ID cookie.
+
+    Returns:
+        - 404: If no valid session is found or session destruction fails.
+        - 200: If the session is successfully destroyed.
     """
     if not auth.destroy_session(request):
         abort(404)
