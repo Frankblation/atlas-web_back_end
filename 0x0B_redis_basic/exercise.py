@@ -5,8 +5,34 @@ import uuid
 from typing import Union, Callable, Optional
 
 
+def call_history(method: Callable) -> Callable:
+    """Decorator to store the history of inputs and outputs for a particular method."""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        # Create Redis keys for inputs and outputs using method's qualified
+        # name
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+
+        # Convert the arguments to a string format and store in Redis using
+        # RPUSH
+        # Redis only stores strings, bytes, numbers
+        self._redis.rpush(input_key, str(args))
+
+        # Call the original method to get the output
+        result = method(self, *args, **kwargs)
+
+        # Store the result in Redis in the outputs list
+        self._redis.rpush(output_key, str(result))
+
+        # Return the result of the method
+        return result
+
+    return wrapper
+
+
 def count_calls(method: Callable) -> Callable:
-    """Decorator that counts how many times a method is called."""
+    """Decorator to count how many times a method is called."""
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__  # Get the qualified name of the method
@@ -21,7 +47,8 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    @count_calls  # Decorate the store method with count_calls
+    @call_history  # Decorate with call_history to track inputs/outputs
+    @count_calls  # Decorate with count_calls to track method calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Store the data in Redis and return the key."""
         key = str(uuid.uuid4())  # Generate a random UUID key
