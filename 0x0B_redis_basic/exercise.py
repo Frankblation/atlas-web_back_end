@@ -4,6 +4,7 @@ import redis
 import uuid
 from typing import Union, Callable, Optional
 
+
 def count_calls(method: Callable) -> Callable:
     """Decorator that counts how many times a method is called."""
     @wraps(method)
@@ -12,6 +13,7 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)  # Increment the call count for the method
         return method(self, *args, **kwargs)  # Call the original method
     return wrapper
+
 
 class Cache:
     def __init__(self):
@@ -26,7 +28,8 @@ class Cache:
         self._redis.set(key, data)  # Store the data in Redis
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, None]:
+    def get(self, key: str, fn: Optional[Callable]
+            = None) -> Union[str, bytes, int, None]:
         """Retrieve data from Redis, optionally converting it using fn."""
         data = self._redis.get(key)
         if data is None:
