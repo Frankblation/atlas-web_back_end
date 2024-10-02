@@ -1,2 +1,2 @@
 // how to use the db
-mongo
+use my_db
