@@ -7,7 +7,7 @@ SELECT
         ELSE split - formed  -- if the band has split, calculate lifespan until split year
     END AS lifespan
 FROM
-    metal_bands
+    bands
 WHERE
     main_style = 'Glam rock'
 ORDER BY
