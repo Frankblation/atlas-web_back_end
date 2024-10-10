@@ -1,14 +1,3 @@
--- Create trigger to reset valid_email when the email is changed
-DELIMITER $$
-
-CREATE TRIGGER reset_valid_email_on_change
-BEFORE UPDATE ON users
-FOR EACH ROW
-BEGIN
-    -- Check if the email has changed
-    IF OLD.email <> NEW.email THEN
-        SET NEW.valid_email = 0;
-    END IF;
-END$$
-
-DELIMITER ;
+version https://git-lfs.github.com/spec/v1
+oid sha256:4b262af433c042eb41d4a331c8088cf9a35148564cfd47d07437f5f3f073230e
+size 301

@@ -1,15 +1,3 @@
---a stored procedure ComputeAverageScoreForUser
---computes and stores the average score for a student
-DELIMITER $$
-
-CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
-BEGIN
-    DECLARE avg_score FLOAT;
-    SELECT AVG(score) INTO avg_score
-    FROM corrections
-    WHERE corrections.user_id = user_id;
-    UPDATE users
-    SET average_score = avg_score
-    WHERE users.id = user_id;
-END $$
-DELIMITER ;
+version https://git-lfs.github.com/spec/v1
+oid sha256:516b32efc723434cd36e8d687a9793fb8ecc2c1d0b5df459801897af5d9603fc
+size 409

@@ -1,6 +1,3 @@
--- Create a users table with unique email
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    name VARCHAR(255)
-);
+version https://git-lfs.github.com/spec/v1
+oid sha256:b8f373e0040c0720e6e7cf128482c7b312c82cc1ae2cdc8fadd9b3f28ac7c0e0
+size 180

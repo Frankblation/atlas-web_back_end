@@ -1,14 +1,3 @@
--- Create trigger to decrease item quantity after adding a new order
-DELIMITER $$
-
-CREATE TRIGGER decrease_quantity_after_order
-AFTER INSERT ON orders
-FOR EACH ROW
-BEGIN
-    -- Update the quantity of the item in the items table
-    UPDATE items
-    SET quantity = quantity - NEW.number
-    WHERE name = NEW.item_name;
-END$$
-
-DELIMITER ;
+version https://git-lfs.github.com/spec/v1
+oid sha256:9753164649ac87fc0cd57b1ec8dd9b3c5b6b105e9c72964f8baec0b5326824f9
+size 336

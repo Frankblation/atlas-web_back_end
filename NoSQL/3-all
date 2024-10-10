@@ -1,0 +1,3 @@
+// List all documents in the collection
+db = connect(my_db);
+db.school.find().forEach(printjson);
