@@ -3,7 +3,10 @@
 
 SELECT
     band_name,
-    IFNULL(YEAR(split), YEAR(CURDATE())) - YEAR(formed) AS lifespan
+    IFNULL(
+        IF(split IS NULL, YEAR(CURDATE()), YEAR(split)) - YEAR(formed),
+        0
+    ) AS lifespan
 FROM
     metal_bands
 WHERE
