@@ -1,5 +1,6 @@
 --a stored procedure ComputeAverageScoreForUser
 --computes and stores the average score for a student
+DELIMITER $$
 CREATE PROCEDURE ComputeAverageScoreForUser(input_id INT)
 BEGIN
     DECLARE average FLOAT;
