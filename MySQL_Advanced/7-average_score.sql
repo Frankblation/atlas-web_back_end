@@ -1,18 +1,15 @@
 --a stored procedure ComputeAverageScoreForUser
 --computes and stores the average score for a student
 DELIMITER $$
-CREATE PROCEDURE ComputeAverageScoreForUser(input_id INT)
+
+CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
-    DECLARE average FLOAT;
-    -- Calculate the average score and store it in the 'average' variable
-    SELECT AVG(COALESCE(score, 0)) INTO average
+    DECLARE avg_score FLOAT;
+    SELECT AVG(score) INTO avg_score
     FROM corrections
-    WHERE user_id = input_id;
-
-    -- Update the user's average score in the users table
+    WHERE corrections.user_id = user_id;
     UPDATE users
-    SET average_score = average
-    WHERE id = input_id;
-END$$
-
+    SET average_score = avg_score
+    WHERE users.id = user_id;
+END $$
 DELIMITER ;
