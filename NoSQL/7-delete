@@ -1,0 +1,5 @@
+//Delete the filtered documents using deleteMany
+db = db.getSiblingDB("my_db");  // Replace "my_db" with the actual database name
+db.school.deleteMany(
+  { name: "Holberton school" }  // Filter documents with name "Holberton school"
+);
