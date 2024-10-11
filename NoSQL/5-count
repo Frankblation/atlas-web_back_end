@@ -1,0 +1,2 @@
+//Display the number of documents in the collection schooldb = connect(my_db);
+print(db.school.count());
