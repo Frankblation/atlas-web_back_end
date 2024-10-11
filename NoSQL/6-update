@@ -1,6 +1,6 @@
-//Update a document
-db.getCollection('school').updateMany(
-  { name: "Holberton school" },  // Filter by name
-  { $set: { address: "972 Mission street" } },  // Set the new address
-  { upsert: false }  // Only update existing documents, don't insert
+//update database
+db = db.getSiblingDB("my_db");  // Replace "my_db" with the actual database name
+db.school.updateMany(
+  { name: "Holberton school" },  // Filter documents with name "Holberton school"
+  { $set: { address: "972 Mission street" } }  // Add or update the address field
 );
