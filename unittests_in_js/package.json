@@ -1,3 +1,17 @@
-"scripts": {
-  "test": "mocha"
-}
+{
+    "name": "atlas-web_back_end",
+    "version": "1.0.0",
+    "description": "Unit tests with Mocha, Chai, and Sinon",
+    "main": "index.js",
+    "scripts": {
+      "test": "mocha *.test.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+      "mocha": "^10.x.x",      // Mocha for test framework
+      "chai": "^4.x.x",        // Chai for assertion library
+      "sinon": "^15.x.x"       // Sinon for spies, stubs, and mocks
+    }
+  }
