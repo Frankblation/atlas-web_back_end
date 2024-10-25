@@ -5,4 +5,4 @@ function sendPaymentRequestToApi(totalAmount, totalShipping) {
   console.log(`The total is: ${total}`);
 }
 
-module.exports = sendPaymentRequestToApi; // Ensure this line is present
+module.exports = sendPaymentRequestToApi;
