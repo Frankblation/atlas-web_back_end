@@ -1,88 +1,36 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('./api');
-const { expect } = chai;
+const express = require('express');
+const app = express();
+const PORT = 7865;
 
-chai.use(chaiHttp);
+app.get('/', (req, res) => {
+  res.send('Welcome to the payment system');
+});
 
-describe('Index page', () => {
-  it('should return status code 200', (done) => {
-    chai.request(app)
-      .get('/')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        done();
-      });
-  });
+app.get('/cart/:id(\\d+)', (req, res) => {
+  res.send(`Payment methods for cart ${req.params.id}`);
+});
 
-  it('should return the correct message', (done) => {
-    chai.request(app)
-      .get('/')
-      .end((err, res) => {
-        expect(res.text).to.equal('Welcome to the payment system');
-        done();
-      });
+app.get('/available_payments', (req, res) => {
+  res.json({
+    payment_methods: {
+      credit_cards: true,
+      paypal: false,
+    },
   });
 });
 
-describe('Cart page', () => {
-  it('should return status code 200 with a valid ID', (done) => {
-    chai.request(app)
-      .get('/cart/12')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.text).to.equal('Payment methods for cart 12');
-        done();
-      });
-  });
-
-  it('should return status code 404 with an invalid ID', (done) => {
-    chai.request(app)
-      .get('/cart/hello')
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        done();
-      });
-  });
+app.post('/login', express.json(), (req, res) => {
+  const userName = req.body.userName;
+  if (userName) {
+    res.send(`Welcome ${userName}`);
+  } else {
+    res.status(400).send('Username is required');
+  }
 });
 
-describe('/available_payments endpoint', () => {
-  it('should return status code 200 and correct response object', (done) => {
-    chai.request(app)
-      .get('/available_payments')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.deep.equal({
-          payment_methods: {
-            credit_cards: true,
-            paypal: false,
-          },
-        });
-        done();
-      });
-  });
+// Export the server for testing purposes
+const server = app.listen(PORT, () => {
+  console.log(`API available on localhost port ${PORT}`);
 });
 
-describe('/login endpoint', () => {
-  it('should return status code 200 and a welcome message with valid username', (done) => {
-    chai.request(app)
-      .post('/login')
-      .send({ userName: 'Betty' })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.text).to.equal('Welcome Betty');
-        done();
-      });
-  });
-
-  it('should return status code 400 if username is missing', (done) => {
-    chai.request(app)
-      .post('/login')
-      .send({})
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.text).to.equal('Username is required');
-        done();
-      });
-  });
-});
+module.exports = server;

@@ -1,21 +1,15 @@
 const express = require('express');
 const app = express();
-const port = 7865;
+const PORT = 7865;
 
-app.use(express.json());
-
-// Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the payment system');
 });
 
-// Cart route
 app.get('/cart/:id(\\d+)', (req, res) => {
-  const { id } = req.params;
-  res.send(`Payment methods for cart ${id}`);
+  res.send(`Payment methods for cart ${req.params.id}`);
 });
 
-// New available_payments route
 app.get('/available_payments', (req, res) => {
   res.json({
     payment_methods: {
@@ -25,9 +19,8 @@ app.get('/available_payments', (req, res) => {
   });
 });
 
-// New login route
-app.post('/login', (req, res) => {
-  const { userName } = req.body;
+app.post('/login', express.json(), (req, res) => {
+  const userName = req.body.userName;
   if (userName) {
     res.send(`Welcome ${userName}`);
   } else {
@@ -35,8 +28,9 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`API available on localhost port ${port}`);
+// Export the server for testing purposes
+const server = app.listen(PORT, () => {
+  console.log(`API available on localhost port ${PORT}`);
 });
 
-module.exports = app;
+module.exports = server;
